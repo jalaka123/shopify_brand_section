@@ -1,0 +1,100 @@
+<div class="brand-section">
+  {% for block in section.blocks limit: 5 %}
+    <h2>{{ block.settings.brand_title }}</h2> 
+    <span>--------</span>
+    <p>{{ block.settings.brand_details }}</p>
+    
+    <div class="brand-collection">
+      {% assign products = collections[block.settings.brand_collection].products %}
+      {% for product in products limit: 4 %}
+        <div class="product">
+          <a href="{{ product.url }}">
+            <img src="{{ product.featured_image.src | img_url: 'medium' }}" alt="{{ product.title }}">
+            <h3>{{ product.title }}</h3>
+            <p>{{ product.price | money }}</p>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+    
+    {% if block.settings.brand_image %}
+      <img src="{{ block.settings.brand_image | img_url: 'large' }}" alt="Brand Image">
+    {% endif %}
+  {% endfor %}
+</div>
+
+
+{% schema %}
+{
+  "name": "Brands",
+  "tag": "section",
+  "class": "Brand_page",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Brand Title",
+      "id": "brand_title",
+      "default": "Brand Title",
+      "placeholder": "Please add title here"
+    },
+    {
+      "type": "image_picker",
+      "label": "Brand Logo",
+      "id": "brand_logo"
+    },
+    {
+      "type": "collection_list",
+      "label": "Select Collection for this Brand",
+      "id": "brand_collection",
+      "limit": 3
+    },
+    {
+      "type": "image_picker",
+      "label": "Brand Promo Banner",
+      "id": "brand_image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand_block",
+      "name": "Brand Block",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "label": "Brands Title",
+          "id": "brand_title"
+        },
+        {
+          "type": "textarea",
+          "label": "Brand Details",
+          "id": "brand_details"
+        },
+        {
+          "type": "collection_list",
+          "label": "Please select collection List",
+          "id": "brand_collection",
+          "limit": 3
+        },
+        {
+          "type": "image_picker",
+          "label": "Brand Banner Image",
+          "id": "brand_image"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "brand Block"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
